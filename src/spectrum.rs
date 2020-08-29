@@ -1,5 +1,7 @@
-/// Helper type to define how many wavelength samples are taken at once
+/// Defines how many wavelengths should be used for HWSS
 pub const NUM_LANES: usize = 4;
+
+/// Helper type to define how many wavelength samples are taken at once
 pub type Lanes = [f32; NUM_LANES];
 
 /// Hero-Wavelength Spectrum Sample
