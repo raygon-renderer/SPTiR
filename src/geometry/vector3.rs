@@ -35,6 +35,38 @@ impl Vector3 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
+    /// The cross product (or vector product) is a binary operation on two vectors specifically in three-dimensional space,
+    /// and is denoted as the symbol `$\times$`
+    ///
+    /// `Testing`
+    ///
+    /// ```math
+    /// \mathbf{a} \times \mathbf{b} =\left\|\mathbf{a} \right\|\left\|\mathbf{b} \right\|\sin(\theta )\ \mathbf{n}
+    /// ```
+    /// where `$\theta$` is the angle between `$\mathbf{a}$` and `$\mathbf{b}$` and `$\mathbf{n}$` is a unit vector perpendicular
+    /// to the plane containing `$\mathbf{a}$` and `$\mathbf{b}$`.
+    ///
+    /// If the vectors `$\mathbf{a}$` and `$\mathbf{b}$` are parallel, by the above formula, the cross product is a zero-vector.
+    ///
+    /// By convention, the direction of the vector `$\mathbf{n}$` is given by the right-hand rule for a right-handed coordinate system.
+    ///
+    /// For a right-handed coordinate system, the cross-product boils down to:
+    /// ```math
+    /// {\begin{pmatrix}
+    ///     s_{1}\\s_{2}\\s_{3}
+    /// \end{pmatrix}} =
+    /// {\begin{pmatrix}
+    ///     a_{2}b_{3}-a_{3}b_{2}\\a_{3}b_{1}-a_{1}b_{3}\\a_{1}b_{2}-a_{2}b_{1}
+    /// \end{pmatrix}}
+    /// ```
+    pub fn cross(&self, other: &Self) -> Vector3 {
+        let x = self.y * other.z - self.z * other.y;
+        let y = self.z * other.x - self.x * other.z;
+        let z = self.x * other.y - self.y - other.x;
+
+        Vector3 { x, y, z }
+    }
+
     pub fn norm_squared(&self) -> f32 {
         self.dot(self)
     }

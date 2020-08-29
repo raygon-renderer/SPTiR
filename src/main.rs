@@ -1,5 +1,9 @@
 pub mod geometry;
+pub mod math;
+pub mod spectrum;
 
 fn main() {
-    println!("Hello, world!");
+    let range = spectrum::SpectralRange::new(360.0, 830.0);
+
+    println!("Hello, world! {:?}", range);
 }
