@@ -39,14 +39,14 @@ impl Vector3 {
         self.dot(self)
     }
 
-    /// Compute the Euclidean norm of the vector
+    /// Compute the Euclidean norm (`$\|\mathbf{v}\|$`) of the vector `$\mathbf{v}$`
     ///
     /// ```math
-    /// \|\mathbf{V}\| = \sqrt{\mathbf{V} \cdot \mathbf{V}}
+    /// \|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}
     /// ```
-    /// where `$\mathbf{V} \cdot \mathbf{V}$` is the [dot product](#method.dot).
+    /// where `$\mathbf{v} \cdot \mathbf{v}$` is the [dot product](#method.dot).
     ///
-    /// By computing the dot product of itself, the result is `$\|\mathbf{V}\| \|\mathbf{V}\|\cos\theta$`,
+    /// By computing the dot product of itself, the result is `$\|\mathbf{v}\| \|\mathbf{v}\|\cos\theta$`,
     /// and because cosine theta between two identical vectors is 1.0, the result is the norm squared.
     pub fn norm(&self) -> f32 {
         self.norm_squared().sqrt()
@@ -55,7 +55,7 @@ impl Vector3 {
     /// Normalizes the vector such that the 3D [Euclidean norm](#method.norm) is 1.0
     ///
     /// ```math
-    /// \mathbf{V}_{normalized} = \frac{\mathbf{V}}{\|\mathbf{V}\|}
+    /// \mathbf{v}_{normalized} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
     /// ```
     pub fn normalize(&self) -> Vector3 {
         let norm_squared = self.norm_squared();
