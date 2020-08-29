@@ -1,3 +1,5 @@
+use std::ops::Div;
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Vector3 {
     pub x: f32,
@@ -37,12 +39,29 @@ impl Vector3 {
     }
 
     pub fn norm(&self) -> f32 {
+        self.norm_squared().sqrt()
+    }
+
+    pub fn normalize(&self) -> Vector3 {
         let norm_squared = self.norm_squared();
 
         if !norm_squared.is_normal() {
             panic!("Invalid vector norm: {}", norm_squared);
         }
 
-        norm_squared.sqrt()
+        *self / norm_squared.sqrt()
+    }
+}
+
+impl Div<f32> for Vector3 {
+    type Output = Vector3;
+    fn div(mut self, rhs: f32) -> Vector3 {
+        debug_assert!(rhs.is_normal());
+
+        self.x /= rhs;
+        self.y /= rhs;
+        self.z /= rhs;
+
+        self
     }
 }
