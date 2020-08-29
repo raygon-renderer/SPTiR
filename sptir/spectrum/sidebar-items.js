@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["NUM_LANES","Helper type to define how many wavelength samples are taken at once"]],"struct":[["HeroWavelengthSample","Hero-Wavelength Spectrum Sample"],["SpectralRange",""],["XYZSpectrum",""]],"type":[["Lanes",""]]});
+initSidebarItems({"constant":[["NUM_LANES","Defines how many wavelengths should be used for HWSS"]],"struct":[["HeroWavelengthSample","Hero-Wavelength Spectrum Sample"],["SpectralRange",""],["XYZSpectrum",""]],"type":[["Lanes","Helper type to define how many wavelength samples are taken at once"]]});

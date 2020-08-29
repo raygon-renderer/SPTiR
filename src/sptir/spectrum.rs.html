@@ -177,9 +177,13 @@
 <span id="126">126</span>
 <span id="127">127</span>
 <span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">/// Helper type to define how many wavelength samples are taken at once</span>
+<span class="doccomment">/// Defines how many wavelengths should be used for HWSS</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NUM_LANES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
+
+<span class="doccomment">/// Helper type to define how many wavelength samples are taken at once</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Lanes</span> <span class="op">=</span> [<span class="ident">f32</span>; <span class="ident">NUM_LANES</span>];
 
 <span class="doccomment">/// Hero-Wavelength Spectrum Sample</span>
