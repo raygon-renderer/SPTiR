@@ -1,0 +1,11 @@
+[package]
+name = "sptir"
+version = "0.1.0"
+authors = ["novacrazy <novacrazy@gmail.com>"]
+edition = "2018"
+publish = false
+
+[package.metadata.docs.rs]
+rustdoc-args = [ "--html-in-header", "katex-header.html" ]
+
+[dependencies]

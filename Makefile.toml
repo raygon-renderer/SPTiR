@@ -1,0 +1,8 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = "true"
+
+[tasks.doc]
+env = { RUSTDOCFLAGS = "--html-in-header ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/katex-header.html" }
+command = "cargo"
+workspace = false
+args = ["doc", "${@}"]
