@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["NUM_LANES","Helper type to define how many wavelength samples are taken at once"]],"struct":[["HeroWavelengthSample","Hero-Wavelength Spectrum Sample"],["SpectralRange",""],["XYZSpectrum",""]],"type":[["Lanes",""]]});

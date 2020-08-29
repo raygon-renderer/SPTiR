@@ -15,7 +15,7 @@
                     katex.render(e.innerText, x, { displayMode: true, throwOnError: false });
                     e.parentNode.parentNode.replaceChild(x, e.parentNode);
                 });
-            } else if(e.parentElement.tagName == "P") {
+            } else if(e.parentElement.nodeType == 1 && e.innerHTML.indexOf('$') != -1) {
                 to_do.push(function() {
                     let x = document.createElement('span');
                     x.innerHTML = e.innerHTML;
@@ -25,7 +25,9 @@
                         ]
                     });
 
-                    e.replaceWith(x);
+                    if(e.innerHTML != x.innerHTML) {
+                        e.replaceWith(x);
+                    }
                 });
             }
         }
