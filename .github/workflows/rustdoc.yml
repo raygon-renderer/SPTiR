@@ -28,7 +28,7 @@ jobs:
           command: doc
           args: --all-features --no-deps
           
-      - run: echo "<meta http-equiv=refresh content=0;url=`echo $GITHUB_REPOSITORY | cut -d '/' -f 2`/index.html>" > target/doc/index.html
+      - run: echo "<meta http-equiv=refresh content=0;url=`echo $GITHUB_REPOSITORY | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]'`/index.html>" > target/doc/index.html
 
       - name: Deploy Documentation
         uses: peaceiris/actions-gh-pages@v3
