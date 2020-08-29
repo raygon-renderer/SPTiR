@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  RUSTDOCFLAGS: --html-in-header katex-header.html
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,7 +26,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: doc
-          args: --html-in-header katex-header.html
+          args: --all-features --no-deps
 
       - name: Deploy Documentation
         uses: peaceiris/actions-gh-pages@v3
