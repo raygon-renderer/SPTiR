@@ -12,7 +12,7 @@
             if(e.parentElement.tagName == "PRE" && e.classList.contains("language-math")) {
                 to_do.push(function() {
                     let x = document.createElement('p');
-                    katex.render(e.innerText, x, { displayMode: true, throwOnError: false });
+                    katex.render(e.innerText, x, { displayMode: true, throwOnError: false, trust: true });
                     e.parentNode.parentNode.replaceChild(x, e.parentNode);
                 });
             } else if(e.parentElement.nodeType == 1 && e.innerHTML.indexOf('$') != -1) {

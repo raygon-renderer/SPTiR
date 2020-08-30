@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ACES_AP0",""],["ACES_AP1",""],["SRGB",""]],"type":[["ACES2065_1Color",""],["ACEScgColor",""],["SRGBColor",""]]});
+initSidebarItems({"struct":[["ACES_AP0","ACES 2065-1 Extreme Wide-Gamut Color Space"],["ACES_AP1","ACEScg Wide-Gamut Color Space"],["SRGB","Rec701 sRGB Color Space"]],"type":[["ACES2065_1Color",""],["ACEScgColor",""],["SRGBColor",""]]});
