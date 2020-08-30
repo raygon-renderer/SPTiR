@@ -68,15 +68,17 @@ impl SpectralRange {
         }
     }
 
-    /// ```math
-    /// X=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {x}}(\lambda )\,d\lambda \right) \\
-    /// Y=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda \right) \\
-    /// Z=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {z}}(\lambda )\,d\lambda \right) \\
-    /// ```
-    /// where
-    /// ```math
-    /// N=\int _{\lambda }I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda
-    /// ```
+    /**
+        ```math
+            X=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {x}}(\lambda )\,d\lambda \right) \\
+            Y=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda \right) \\
+            Z=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {z}}(\lambda )\,d\lambda \right) \\
+        ```
+        where
+        ```math
+            N=\int _{\lambda }I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda
+        ```
+    */
     pub fn hero_to_xyz(&self, hero: HeroWavelengthSample) -> XYZSpectrum {
         let mut sum = XYZSpectrum::ZERO;
 
@@ -92,17 +94,19 @@ impl SpectralRange {
         sum
     }
 
-    /// Samples a hero wavelength and `NUM_LANES` number of equidistantly spaced other wavelength samples
-    /// within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
-    /// ```math
-    /// r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
-    /// ```
-    /// where
-    /// ```math
-    /// \begin{aligned}
-    /// j &= 1,\dots,C \\ \overline{\lambda}&=\lambda_{max}-\lambda_{min}
-    /// \end{aligned}
-    /// ```
+    /**
+        Samples a hero wavelength and `NUM_LANES` number of equidistantly spaced other wavelength samples
+        within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
+        ```math
+            r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
+        ```
+        where
+        ```math
+        \begin{aligned}
+            j &= 1,\dots,C \\ \overline{\lambda}&=\lambda_{max}-\lambda_{min}
+        \end{aligned}
+        ```
+    */
     pub fn sample_hero(&self, t: f32) -> HeroWavelengthSample {
         let lambda_bar = self.max - self.min;
 

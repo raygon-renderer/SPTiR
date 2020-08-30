@@ -17,48 +17,52 @@ impl Vector3 {
 }
 
 impl Vector3 {
-    /// The dot product (or scalar product) of two N-dimensional vectors is defined as:
-    /// ```math
-    /// \mathbf{a} \cdot \mathbf{b} = \sum _{i=1}^{N}{a}_{i}{b}_{i} = {a}_{1}{b}_{1} + {a}_{2}{b}_{2} + \cdots + {a}_{n}{b}_{n}
-    /// ```
-    ///
-    /// where `$\Sigma$` denotes summation.
-    ///
-    /// In Euclidean space, the dot product of two vectors is equivalent to the scaled angle between them:
-    /// ```math
-    /// \mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\|\ \|\mathbf{b}\|\cos \theta
-    /// ```
-    /// where `$\|\mathbf{a}\|$` is the [Euclidean norm](#method.norm) of the vector.
-    ///
-    /// As such, the dot product is often used to compute the cosine theta between two normalized vectors.
+    /**
+        The dot product (or scalar product) of two N-dimensional vectors is defined as:
+        ```math
+        \mathbf{a} \cdot \mathbf{b} = \sum _{i=1}^{N}{a}_{i}{b}_{i} = {a}_{1}{b}_{1} + {a}_{2}{b}_{2} + \cdots + {a}_{n}{b}_{n}
+        ```
+
+        where `$\Sigma$` denotes summation.
+
+        In Euclidean space, the dot product of two vectors is equivalent to the scaled angle between them:
+        ```math
+        \mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\|\ \|\mathbf{b}\|\cos \theta
+        ```
+        where `$\|\mathbf{a}\|$` is the [Euclidean norm](#method.norm) of the vector.
+
+        As such, the dot product is often used to compute the cosine theta between two normalized vectors.
+    */
     pub fn dot(&self, other: &Self) -> f32 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
-    /// The cross product (or vector product) is a binary operation on two vectors specifically in three-dimensional space,
-    /// and is denoted as the symbol `$\times$`
-    ///
-    /// `Testing`
-    ///
-    /// ```math
-    /// \mathbf{a} \times \mathbf{b} =\left\|\mathbf{a} \right\|\left\|\mathbf{b} \right\|\sin(\theta )\ \mathbf{n}
-    /// ```
-    /// where `$\theta$` is the angle between `$\mathbf{a}$` and `$\mathbf{b}$` and `$\mathbf{n}$` is a unit vector perpendicular
-    /// to the plane containing `$\mathbf{a}$` and `$\mathbf{b}$`.
-    ///
-    /// If the vectors `$\mathbf{a}$` and `$\mathbf{b}$` are parallel, by the above formula, the cross product is a zero-vector.
-    ///
-    /// By convention, the direction of the vector `$\mathbf{n}$` is given by the right-hand rule for a right-handed coordinate system.
-    ///
-    /// For a right-handed coordinate system, the cross-product boils down to:
-    /// ```math
-    /// {\begin{pmatrix}
-    ///     s_{1}\\s_{2}\\s_{3}
-    /// \end{pmatrix}} =
-    /// {\begin{pmatrix}
-    ///     a_{2}b_{3}-a_{3}b_{2}\\a_{3}b_{1}-a_{1}b_{3}\\a_{1}b_{2}-a_{2}b_{1}
-    /// \end{pmatrix}}
-    /// ```
+    /**
+        The cross product (or vector product) is a binary operation on two vectors specifically in three-dimensional space,
+        and is denoted as the symbol `$\times$`
+
+        `Testing`
+
+        ```math
+        \mathbf{a} \times \mathbf{b} =\left\|\mathbf{a} \right\|\left\|\mathbf{b} \right\|\sin(\theta )\ \mathbf{n}
+        ```
+        where `$\theta$` is the angle between `$\mathbf{a}$` and `$\mathbf{b}$` and `$\mathbf{n}$` is a unit vector perpendicular
+        to the plane containing `$\mathbf{a}$` and `$\mathbf{b}$`.
+
+        If the vectors `$\mathbf{a}$` and `$\mathbf{b}$` are parallel, by the above formula, the cross product is a zero-vector.
+
+        By convention, the direction of the vector `$\mathbf{n}$` is given by the right-hand rule for a right-handed coordinate system.
+
+        For a right-handed coordinate system, the cross-product boils down to:
+        ```math
+        {\begin{pmatrix}
+            s_{1}\\s_{2}\\s_{3}
+        \end{pmatrix}} =
+        {\begin{pmatrix}
+            a_{2}b_{3}-a_{3}b_{2}\\a_{3}b_{1}-a_{1}b_{3}\\a_{1}b_{2}-a_{2}b_{1}
+        \end{pmatrix}}
+        ```
+    */
     pub fn cross(&self, other: &Self) -> Vector3 {
         let x = self.y * other.z - self.z * other.y;
         let y = self.z * other.x - self.x * other.z;
@@ -71,24 +75,28 @@ impl Vector3 {
         self.dot(self)
     }
 
-    /// Compute the Euclidean norm (`$\|\mathbf{v}\|$`) of the vector `$\mathbf{v}$`
-    ///
-    /// ```math
-    /// \|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}
-    /// ```
-    /// where `$\mathbf{v} \cdot \mathbf{v}$` is the [dot product](#method.dot).
-    ///
-    /// By computing the dot product of itself, the result is `$\|\mathbf{v}\| \|\mathbf{v}\|\cos\theta$`,
-    /// and because cosine theta between two identical vectors is 1.0, the result is the norm squared.
+    /**
+        Compute the Euclidean norm (`$\|\mathbf{v}\|$`) of the vector `$\mathbf{v}$`
+
+        ```math
+        \|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}
+        ```
+        where `$\mathbf{v} \cdot \mathbf{v}$` is the [dot product](#method.dot).
+
+        By computing the dot product of itself, the result is `$\|\mathbf{v}\| \|\mathbf{v}\|\cos\theta$`,
+        and because cosine theta between two identical vectors is 1.0, the result is the norm squared.
+    */
     pub fn norm(&self) -> f32 {
         self.norm_squared().sqrt()
     }
 
-    /// Normalizes the vector such that the 3D [Euclidean norm](#method.norm) is 1.0
-    ///
-    /// ```math
-    /// \mathbf{v}_{normalized} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
-    /// ```
+    /**
+        Normalizes the vector such that the 3D [Euclidean norm](#method.norm) is 1.0
+
+        ```math
+        \mathbf{v}_{normalized} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
+        ```
+    */
     pub fn normalize(&self) -> Vector3 {
         let norm_squared = self.norm_squared();
 

@@ -1,13 +1,15 @@
-/// A 4x4 matrix
-///
-/// ```math
-/// \begin{bmatrix}
-///     m_{00} & m_{01} & m_{02} & m_{03} \\
-///     m_{10} & m_{11} & m_{12} & m_{13} \\
-///     m_{20} & m_{21} & m_{22} & m_{23} \\
-///     m_{30} & m_{31} & m_{32} & m_{33} \\
-/// \end{bmatrix}
-/// ```
+/**
+    A 4x4 matrix
+
+    ```math
+    \begin{bmatrix}
+        m_{00} & m_{01} & m_{02} & m_{03} \\
+        m_{10} & m_{11} & m_{12} & m_{13} \\
+        m_{20} & m_{21} & m_{22} & m_{23} \\
+        m_{30} & m_{31} & m_{32} & m_{33} \\
+    \end{bmatrix}
+    ```
+*/
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Matrix4 {
     pub m00: f32,
@@ -29,15 +31,18 @@ pub struct Matrix4 {
 }
 
 impl Matrix4 {
-    /// The Identity matrix
-    /// ```math
-    /// \begin{bmatrix}
-    ///     1 & 0 & 0 & 0 \\
-    ///     0 & 1 & 0 & 0 \\
-    ///     0 & 0 & 1 & 0 \\
-    ///     0 & 0 & 0 & 1 \\
-    /// \end{bmatrix}
-    /// ```
+    /**
+        The Identity matrix
+
+        ```math
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 \\
+        \end{bmatrix}
+        ```
+    */
     #[rustfmt::skip]
     pub const IDENTITY: Matrix4 = Matrix4::new(
         1.0, 0.0, 0.0, 0.0,
