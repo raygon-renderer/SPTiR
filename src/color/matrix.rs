@@ -1,20 +1,23 @@
+use crate::color::{Colorspace, RGBColor};
 use crate::spectrum::XYZSpectrum;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColorMatrix3(pub [f32; 9]);
 
-#[rustfmt::skip]
-const fn const_abs(x: f32) -> f32 {
-    if x < 0.0 { -x } else { x }
-}
-
 const fn const_is_normal(x: f32) -> bool {
-    x == x && x != 0.0 && const_abs(x) < f32::INFINITY
+    x == x && x != 0.0 && x < f32::INFINITY && x > f32::NEG_INFINITY
 }
 
 impl ColorMatrix3 {
     #[rustfmt::skip]
-    pub const fn const_inverse(self) -> ColorMatrix3 {
+    pub const IDENTITY: ColorMatrix3 = ColorMatrix3([
+        1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0,
+    ]);
+
+    #[rustfmt::skip]
+    pub const fn inverse(self) -> ColorMatrix3 {
         let ColorMatrix3([
             m00, m01, m02,
             m10, m11, m12,
@@ -49,7 +52,7 @@ impl ColorMatrix3 {
     }
 
     #[rustfmt::skip]
-    pub const fn const_mul(self, b: ColorMatrix3) -> ColorMatrix3 {
+    pub const fn multiply(self, b: ColorMatrix3) -> ColorMatrix3 {
         let mut res = [0.0; 9];
 
         let mut i = 0; while i < 3 {
@@ -65,22 +68,33 @@ impl ColorMatrix3 {
     }
 
     #[rustfmt::skip]
-    pub const fn const_transform(self, p: XYZSpectrum) -> XYZSpectrum {
+    const fn real_transform_3d(self, x: f32, y: f32, z: f32) -> (f32, f32, f32) {
         let ColorMatrix3([
             m00, m01, m02,
             m10, m11, m12,
             m20, m21, m22,
         ]) = self;
 
-        let x = m00 * p.x + m01 * p.y + m02 * p.z;
-        let y = m10 * p.x + m11 * p.y + m12 * p.z;
-        let z = m20 * p.x + m21 * p.y + m22 * p.z;
+        (
+            m00 * x + m01 * y + m02 * z,
+            m10 * x + m11 * y + m12 * z,
+            m20 * x + m21 * y + m22 * z,
+        )
+    }
 
-        XYZSpectrum {x, y, z}
+    pub const fn transform_xyz(self, p: XYZSpectrum) -> XYZSpectrum {
+        let (x, y, z) = self.real_transform_3d(p.x, p.y, p.z);
+        XYZSpectrum::new(x, y, z)
+    }
+
+    /// WARNING: This method does not actually calculate the color adaptation matrix and should not be used directly.
+    pub const fn transform_rgb<FROM: Colorspace, TO: Colorspace>(self, p: RGBColor<FROM>) -> RGBColor<TO> {
+        let (r, g, b) = self.real_transform_3d(p.r, p.g, p.b);
+        RGBColor::new(r, g, b)
     }
 
     #[rustfmt::skip]
-    pub const fn const_transpose(self) -> ColorMatrix3 {
+    pub const fn transpose(self) -> ColorMatrix3 {
         let ColorMatrix3([
             m00, m01, m02,
             m10, m11, m12,

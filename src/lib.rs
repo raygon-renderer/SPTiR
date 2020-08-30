@@ -1,8 +1,8 @@
 #![feature(const_fn, const_panic)]
 
 /*!
-Spectral Path Tracing in Rust
-=============================
+# Spectral Path Tracing in Rust
+
 
 
 
