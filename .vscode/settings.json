@@ -1,5 +1,4 @@
 {
     "editor.formatOnSave": true,
-    "rust-analyzer.checkOnSave.command": "+stable check",
     "rust-analyzer.cargo.loadOutDirsFromCheck": true
 }
