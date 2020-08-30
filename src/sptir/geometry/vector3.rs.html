@@ -163,6 +163,14 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Div</span>;
 
@@ -183,48 +191,52 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Vector3</span> {
-    <span class="doccomment">/// The dot product (or scalar product) of two N-dimensional vectors is defined as:</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \mathbf{a} \cdot \mathbf{b} = \sum _{i=1}^{N}{a}_{i}{b}_{i} = {a}_{1}{b}_{1} + {a}_{2}{b}_{2} + \cdots + {a}_{n}{b}_{n}</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// where `$\Sigma$` denotes summation.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// In Euclidean space, the dot product of two vectors is equivalent to the scaled angle between them:</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\|\ \|\mathbf{b}\|\cos \theta</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// where `$\|\mathbf{a}\|$` is the [Euclidean norm](#method.norm) of the vector.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// As such, the dot product is often used to compute the cosine theta between two normalized vectors.</span>
+    <span class="doccomment">/**
+        The dot product (or scalar product) of two N-dimensional vectors is defined as:
+        ```math
+        \mathbf{a} \cdot \mathbf{b} = \sum _{i=1}^{N}{a}_{i}{b}_{i} = {a}_{1}{b}_{1} + {a}_{2}{b}_{2} + \cdots + {a}_{n}{b}_{n}
+        ```
+
+        where `$\Sigma$` denotes summation.
+
+        In Euclidean space, the dot product of two vectors is equivalent to the scaled angle between them:
+        ```math
+        \mathbf{a} \cdot \mathbf{b} = \|\mathbf{a}\|\ \|\mathbf{b}\|\cos \theta
+        ```
+        where `$\|\mathbf{a}\|$` is the [Euclidean norm](#method.norm) of the vector.
+
+        As such, the dot product is often used to compute the cosine theta between two normalized vectors.
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dot</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">x</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">x</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">y</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">y</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">z</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">z</span>
     }
 
-    <span class="doccomment">/// The cross product (or vector product) is a binary operation on two vectors specifically in three-dimensional space,</span>
-    <span class="doccomment">/// and is denoted as the symbol `$\times$`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `Testing`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \mathbf{a} \times \mathbf{b} =\left\|\mathbf{a} \right\|\left\|\mathbf{b} \right\|\sin(\theta )\ \mathbf{n}</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// where `$\theta$` is the angle between `$\mathbf{a}$` and `$\mathbf{b}$` and `$\mathbf{n}$` is a unit vector perpendicular</span>
-    <span class="doccomment">/// to the plane containing `$\mathbf{a}$` and `$\mathbf{b}$`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the vectors `$\mathbf{a}$` and `$\mathbf{b}$` are parallel, by the above formula, the cross product is a zero-vector.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By convention, the direction of the vector `$\mathbf{n}$` is given by the right-hand rule for a right-handed coordinate system.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For a right-handed coordinate system, the cross-product boils down to:</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// {\begin{pmatrix}</span>
-    <span class="doccomment">///     s_{1}\\s_{2}\\s_{3}</span>
-    <span class="doccomment">/// \end{pmatrix}} =</span>
-    <span class="doccomment">/// {\begin{pmatrix}</span>
-    <span class="doccomment">///     a_{2}b_{3}-a_{3}b_{2}\\a_{3}b_{1}-a_{1}b_{3}\\a_{1}b_{2}-a_{2}b_{1}</span>
-    <span class="doccomment">/// \end{pmatrix}}</span>
-    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/**
+        The cross product (or vector product) is a binary operation on two vectors specifically in three-dimensional space,
+        and is denoted as the symbol `$\times$`
+
+        `Testing`
+
+        ```math
+        \mathbf{a} \times \mathbf{b} =\left\|\mathbf{a} \right\|\left\|\mathbf{b} \right\|\sin(\theta )\ \mathbf{n}
+        ```
+        where `$\theta$` is the angle between `$\mathbf{a}$` and `$\mathbf{b}$` and `$\mathbf{n}$` is a unit vector perpendicular
+        to the plane containing `$\mathbf{a}$` and `$\mathbf{b}$`.
+
+        If the vectors `$\mathbf{a}$` and `$\mathbf{b}$` are parallel, by the above formula, the cross product is a zero-vector.
+
+        By convention, the direction of the vector `$\mathbf{n}$` is given by the right-hand rule for a right-handed coordinate system.
+
+        For a right-handed coordinate system, the cross-product boils down to:
+        ```math
+        {\begin{pmatrix}
+            s_{1}\\s_{2}\\s_{3}
+        \end{pmatrix}} =
+        {\begin{pmatrix}
+            a_{2}b_{3}-a_{3}b_{2}\\a_{3}b_{1}-a_{1}b_{3}\\a_{1}b_{2}-a_{2}b_{1}
+        \end{pmatrix}}
+        ```
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cross</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vector3</span> {
         <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">y</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">z</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">z</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">y</span>;
         <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">z</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">x</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">x</span> <span class="op">*</span> <span class="ident">other</span>.<span class="ident">z</span>;
@@ -237,24 +249,28 @@
         <span class="self">self</span>.<span class="ident">dot</span>(<span class="self">self</span>)
     }
 
-    <span class="doccomment">/// Compute the Euclidean norm (`$\|\mathbf{v}\|$`) of the vector `$\mathbf{v}$`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// where `$\mathbf{v} \cdot \mathbf{v}$` is the [dot product](#method.dot).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By computing the dot product of itself, the result is `$\|\mathbf{v}\| \|\mathbf{v}\|\cos\theta$`,</span>
-    <span class="doccomment">/// and because cosine theta between two identical vectors is 1.0, the result is the norm squared.</span>
+    <span class="doccomment">/**
+        Compute the Euclidean norm (`$\|\mathbf{v}\|$`) of the vector `$\mathbf{v}$`
+
+        ```math
+        \|\mathbf{v}\| = \sqrt{\mathbf{v} \cdot \mathbf{v}}
+        ```
+        where `$\mathbf{v} \cdot \mathbf{v}$` is the [dot product](#method.dot).
+
+        By computing the dot product of itself, the result is `$\|\mathbf{v}\| \|\mathbf{v}\|\cos\theta$`,
+        and because cosine theta between two identical vectors is 1.0, the result is the norm squared.
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">norm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">norm_squared</span>().<span class="ident">sqrt</span>()
     }
 
-    <span class="doccomment">/// Normalizes the vector such that the 3D [Euclidean norm](#method.norm) is 1.0</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \mathbf{v}_{normalized} = \frac{\mathbf{v}}{\|\mathbf{v}\|}</span>
-    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/**
+        Normalizes the vector such that the 3D [Euclidean norm](#method.norm) is 1.0
+
+        ```math
+        \mathbf{v}_{normalized} = \frac{\mathbf{v}}{\|\mathbf{v}\|}
+        ```
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">normalize</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vector3</span> {
         <span class="kw">let</span> <span class="ident">norm_squared</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">norm_squared</span>();
 

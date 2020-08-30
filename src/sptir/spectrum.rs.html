@@ -179,6 +179,10 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// Defines how many wavelengths should be used for HWSS</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NUM_LANES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
@@ -250,15 +254,17 @@
         }
     }
 
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// X=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {x}}(\lambda )\,d\lambda \right) \\</span>
-    <span class="doccomment">/// Y=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda \right) \\</span>
-    <span class="doccomment">/// Z=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {z}}(\lambda )\,d\lambda \right) \\</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// where</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// N=\int _{\lambda }I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda</span>
-    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/**
+        ```math
+            X=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {x}}(\lambda )\,d\lambda \right) \\
+            Y=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda \right) \\
+            Z=\sum_{j=0}^{C} \left({\frac {1}{N}}\int _{\lambda }S_j(\lambda )\,I(\lambda )\,{\overline {z}}(\lambda )\,d\lambda \right) \\
+        ```
+        where
+        ```math
+            N=\int _{\lambda }I(\lambda )\,{\overline {y}}(\lambda )\,d\lambda
+        ```
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">hero_to_xyz</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">hero</span>: <span class="ident">HeroWavelengthSample</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">XYZSpectrum</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sum</span> <span class="op">=</span> <span class="ident">XYZSpectrum</span>::<span class="ident">ZERO</span>;
 
@@ -274,17 +280,19 @@
         <span class="ident">sum</span>
     }
 
-    <span class="doccomment">/// Samples a hero wavelength and `NUM_LANES` number of equidistantly spaced other wavelength samples</span>
-    <span class="doccomment">/// within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// where</span>
-    <span class="doccomment">/// ```math</span>
-    <span class="doccomment">/// \begin{aligned}</span>
-    <span class="doccomment">/// j &amp;= 1,\dots,C \\ \overline{\lambda}&amp;=\lambda_{max}-\lambda_{min}</span>
-    <span class="doccomment">/// \end{aligned}</span>
-    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/**
+        Samples a hero wavelength and `NUM_LANES` number of equidistantly spaced other wavelength samples
+        within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
+        ```math
+            r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
+        ```
+        where
+        ```math
+        \begin{aligned}
+            j &amp;= 1,\dots,C \\ \overline{\lambda}&amp;=\lambda_{max}-\lambda_{min}
+        \end{aligned}
+        ```
+    */</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sample_hero</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">t</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">HeroWavelengthSample</span> {
         <span class="kw">let</span> <span class="ident">lambda_bar</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">max</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">min</span>;
 
