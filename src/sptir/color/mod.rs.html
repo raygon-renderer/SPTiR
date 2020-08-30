@@ -291,6 +291,26 @@
 <span id="239">239</span>
 <span id="240">240</span>
 <span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 
@@ -460,6 +480,26 @@
         <span class="ident">RGBColor</span> { <span class="ident">r</span>, <span class="ident">g</span>, <span class="ident">b</span>, <span class="ident">_colorspace</span>: <span class="ident">PhantomData</span> }
     }
 
+    <span class="doccomment">/**
+        Convert the RGB value of one colorspace to an RGB value in another colorspace,
+        applying chromatic adaptation to account for different whitepoints.
+
+        ```math
+            \begin{aligned}
+                XYZ\_TO\_XYZ &amp;= \texttt{\href{fn.compute_adaptation_matrix.html}{compute\_adaptation\_matrix}
+                    (
+                        \href{trait.Colorspace.html#associatedconstant.WHITEPOINT}{FROM::WHITEPOINT},
+                        \href{trait.Colorspace.html#associatedconstant.WHITEPOINT}{TO::WHITEPOINT}
+                    )}
+                \\
+                RGB\_TO\_RGB &amp;= \begin{bmatrix} \texttt{
+                    \href{trait.Colorspace.html#associatedconstant.XYZ_TO_RGB}{TO::XYZ\_TO\_RGB}
+                } \end{bmatrix} \begin{bmatrix} XYZ\_TO\_XYZ \end{bmatrix} \begin{bmatrix} \texttt{
+                    \href{trait.Colorspace.html#associatedconstant.RGB_TO_XYZ}{TO::RGB\_TO\_XYZ}
+                } \end{bmatrix}
+            \end{aligned}
+        ```
+    */</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">convert</span><span class="op">&lt;</span><span class="ident">TO</span>: <span class="ident">Colorspace</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RGBColor</span><span class="op">&lt;</span><span class="ident">TO</span><span class="op">&gt;</span> {
         <span class="ident">Adaptation</span>::<span class="op">&lt;</span><span class="ident">CS</span>, <span class="ident">TO</span><span class="op">&gt;</span>::<span class="ident">RGB_TO_RGB</span>.<span class="ident">transform_rgb</span>(<span class="self">self</span>)
     }
