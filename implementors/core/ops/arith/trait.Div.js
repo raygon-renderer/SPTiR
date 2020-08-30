@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["sptir"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/arith/trait.Div.html\" title=\"trait core::ops::arith::Div\">Div</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/nightly/std/primitive.f32.html\">f32</a>&gt; for <a class=\"struct\" href=\"sptir/geometry/struct.Vector3.html\" title=\"struct sptir::geometry::Vector3\">Vector3</a>","synthetic":false,"types":["sptir::geometry::vector3::Vector3"]}];
+implementors["sptir"] = [{"text":"impl Div&lt;f32&gt; for Vector3","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
