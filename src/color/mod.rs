@@ -166,6 +166,26 @@ impl<CS: Colorspace> RGBColor<CS> {
         RGBColor { r, g, b, _colorspace: PhantomData }
     }
 
+    /**
+        Convert the RGB value of one colorspace to an RGB value in another colorspace,
+        applying chromatic adaptation to account for different whitepoints.
+
+        ```math
+            \begin{aligned}
+                XYZ\_TO\_XYZ &= \texttt{\href{fn.compute_adaptation_matrix.html}{compute\_adaptation\_matrix}
+                    (
+                        \href{trait.Colorspace.html#associatedconstant.WHITEPOINT}{FROM::WHITEPOINT},
+                        \href{trait.Colorspace.html#associatedconstant.WHITEPOINT}{TO::WHITEPOINT}
+                    )}
+                \\
+                RGB\_TO\_RGB &= \begin{bmatrix} \texttt{
+                    \href{trait.Colorspace.html#associatedconstant.XYZ_TO_RGB}{TO::XYZ\_TO\_RGB}
+                } \end{bmatrix} \begin{bmatrix} XYZ\_TO\_XYZ \end{bmatrix} \begin{bmatrix} \texttt{
+                    \href{trait.Colorspace.html#associatedconstant.RGB_TO_XYZ}{TO::RGB\_TO\_XYZ}
+                } \end{bmatrix}
+            \end{aligned}
+        ```
+    */
     pub const fn convert<TO: Colorspace>(self) -> RGBColor<TO> {
         Adaptation::<CS, TO>::RGB_TO_RGB.transform_rgb(self)
     }
