@@ -1,8 +1,5 @@
-#[doc(hidden)]
 mod matrix4;
-#[doc(hidden)]
 mod point3;
-#[doc(hidden)]
 mod vector3;
 
 pub use self::matrix4::*;
