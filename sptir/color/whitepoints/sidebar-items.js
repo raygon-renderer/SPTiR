@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["ACES","D60-like whitepoint designed for future-compatibility of the ACES color space"],["D60","D60 has a CCT of approximately 6000K"],["D65","Noon Daylight: Television, sRGB color space"]]});

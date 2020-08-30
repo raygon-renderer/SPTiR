@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ColorMatrix3",""],["RGBColor",""],["RGBPrimaries",""],["xyY",""]],"trait":[["Colorspace",""]]});
+initSidebarItems({"constant":[["FORWARD_BRADFORD_MATRIX",""],["INVERSE_BRADFORD_MATRIX",""]],"fn":[["compute_adaptation_matrix",""]],"mod":[["spaces",""],["whitepoints",""]],"struct":[["Adaptation",""],["ColorMatrix3",""],["RGBColor",""],["RGBPrimaries",""],["xyY",""]],"trait":[["Colorspace",""]]});
