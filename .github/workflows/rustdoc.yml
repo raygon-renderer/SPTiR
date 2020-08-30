@@ -21,13 +21,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+
       - name: Build Documentation
         uses: actions-rs/cargo@v1
         with:
           command: doc
+          toolchain: nightly
           args: --all-features --no-deps
-          
+
       - run: echo "<meta http-equiv=refresh content=0;url=`echo $GITHUB_REPOSITORY | cut -d '/' -f 2 | tr '[:upper:]' '[:lower:]'`/index.html>" > target/doc/index.html
 
       - name: Deploy Documentation
@@ -37,4 +42,3 @@ jobs:
           publish_branch: gh-pages
           publish_dir: ./target/doc
           keep_files: true
-          

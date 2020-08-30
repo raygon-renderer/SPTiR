@@ -11,24 +11,7 @@
     ```
 */
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Matrix4 {
-    pub m00: f32,
-    pub m01: f32,
-    pub m02: f32,
-    pub m03: f32,
-    pub m10: f32,
-    pub m11: f32,
-    pub m12: f32,
-    pub m13: f32,
-    pub m20: f32,
-    pub m21: f32,
-    pub m22: f32,
-    pub m23: f32,
-    pub m30: f32,
-    pub m31: f32,
-    pub m32: f32,
-    pub m33: f32,
-}
+pub struct Matrix4(pub [f32; 16]);
 
 impl Matrix4 {
     /**
@@ -58,11 +41,11 @@ impl Matrix4 {
         m20: f32, m21: f32, m22: f32, m23: f32,
         m30: f32, m31: f32, m32: f32, m33: f32,
     ) -> Matrix4 {
-        Matrix4 {
+        Matrix4([
             m00, m01, m02, m03,
             m10, m11, m12, m13,
             m20, m21, m22, m23,
             m30, m31, m32, m33,
-        }
+        ])
     }
 }

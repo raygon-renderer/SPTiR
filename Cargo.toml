@@ -9,3 +9,4 @@ publish = false
 rustdoc-args = [ "--html-in-header", "katex-header.html" ]
 
 [dependencies]
+image = { version = "0.23.8", default_features = false, features = ["png"] }
