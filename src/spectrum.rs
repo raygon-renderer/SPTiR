@@ -8,19 +8,43 @@ pub const NUM_LANES: usize = 4;
 /// Helper type to define how many wavelength samples are taken at once
 pub type Lanes = [f32; NUM_LANES];
 
-/// Hero-Wavelength Spectrum Sample
+/// Hero wavelength spectrum samples
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct HeroWavelengthSample {
-    /// The sampled wavelengths (`$\lambda$`)
+pub struct SpectralWavelengthSamples {
+    /// The sampled wavelengths (`$\lambda$`), where `$\lambda_h = \lamnda_0$`
     pub lambda: Lanes,
-    /// The Radiant Flux (`$\Phi_{\mathrm{e}}$`) being carried at each wavelength
-    pub energy: Lanes,
+
     /// The sampling probability for this wavelength
     ///
     /// If the sampling is uniform, then this is simply `$\small\frac{1}{\lambda_{max} - \lambda_{min}}$`
     pub pdf: Lanes,
 }
 
+impl SpectralWavelengthSamples {
+    /// Hero wavelength `$\lambda_h$`
+    pub fn hero(&self) -> f32 {
+        self.lambda[0]
+    }
+}
+
+/// `$L_{\mathbf{a},\Omega,\lambda}$`, surface radiance in watts per steradian per sqr-metre, per nanometer
+pub struct SpectralRadiance {
+    pub energy: Lanes,
+}
+
+/// `$\Phi_{\mathbf{e},\lambda}$`, radiant energy in watts per metre
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct SpectralFlux {
+    /// The Spectral Flux (`$\Phi_{\mathrm{e}}$`) being carried at each wavelength
+    pub energy: Lanes,
+}
+
+/// `$R_{\lambda}$`, unitless reflectance factor between 0 and 1
+pub struct SpectralReflectance {
+    pub ratio: Lanes,
+}
+
+/// XYZ Tristimulus color values
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct XYZSpectrum {
     pub x: f32,
@@ -99,6 +123,7 @@ impl Add for XYZSpectrum {
     }
 }
 
+/// `$\int_{\lambda_{min}}^{\lambda_{max}} \overline{y}(\lambda) d\lambda$`, where wavelengths can be sampled.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SpectralRange {
     pub min: f32,
@@ -131,15 +156,15 @@ impl SpectralRange {
 
         If the sampling is uniform, then `$p(\lambda_j^s)$` is simply `$\small\frac{1}{\lambda_{max} - \lambda_{min}}$`
     */
-    pub fn hero_to_xyz(&self, sample: HeroWavelengthSample) -> XYZSpectrum {
+    pub fn hero_to_xyz(&self, wl: SpectralWavelengthSamples, flux: SpectralFlux) -> XYZSpectrum {
         let mut avg = XYZSpectrum::ZERO;
 
         for i in 0..NUM_LANES {
-            let denom = self.y_integral * sample.pdf[i] * NUM_LANES as f32;
+            let denom = self.y_integral * wl.pdf[i] * NUM_LANES as f32;
 
             if denom.is_normal() {
-                let xyz = XYZSpectrum::from_wavelength(sample.lambda[i]);
-                let normalized_energy = sample.energy[i] / denom;
+                let xyz = XYZSpectrum::from_wavelength(wl.lambda[i]);
+                let normalized_energy = flux.energy[i] / denom;
 
                 avg.x += xyz.x * normalized_energy;
                 avg.y += xyz.y * normalized_energy;
@@ -166,7 +191,7 @@ impl SpectralRange {
         \end{aligned}
         ```
     */
-    pub fn sample_hero(&self, t: f32) -> HeroWavelengthSample {
+    pub fn sample_hero(&self, t: f32) -> SpectralWavelengthSamples {
         let lambda_bar = self.max - self.min;
 
         let hero = self.min + t.min(1.0).max(0.0) * lambda_bar; // basically a lerp
@@ -179,16 +204,9 @@ impl SpectralRange {
             lambda[j] = self.min + (hero - self.min + lambda_bar * jf / NUM_LANES as f32) % lambda_bar;
         }
 
-        HeroWavelengthSample {
+        SpectralWavelengthSamples {
             lambda,
-            energy: [0.0; NUM_LANES],
             pdf: [1.0 / lambda_bar; NUM_LANES],
         }
-    }
-}
-
-impl HeroWavelengthSample {
-    pub fn hero(&self) -> f32 {
-        self.lambda[0]
     }
 }
