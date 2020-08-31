@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["sptir"] = [{"text":"impl Mul&lt;f32&gt; for Vector3","synthetic":false,"types":[]},{"text":"impl Mul&lt;SpectralReflectance&gt; for SpectralReflectance","synthetic":false,"types":[]},{"text":"impl Mul&lt;SpectralReflectance&gt; for SpectralFlux","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -264,18 +264,61 @@
 <span id="212">212</span>
 <span id="213">213</span>
 <span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Add</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Mul</span>};
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">color</span>::{<span class="ident">Colorspace</span>, <span class="ident">RGBColor</span>};
 
-<span class="kw">use</span> <span class="ident">numeric_array</span>::{<span class="ident">NumericArray</span>, <span class="ident">typenum</span>};
+<span class="kw">use</span> <span class="ident">numeric_array</span>::{<span class="ident">typenum</span>, <span class="ident">NumericArray</span>};
 <span class="kw">use</span> <span class="ident">typenum</span>::<span class="ident">Unsigned</span>;
+
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">distribution</span>;
 
 <span class="doccomment">/// Defines how many wavelengths should be used for HWSS</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">NumLanes</span> <span class="op">=</span> <span class="ident">typenum</span>::<span class="ident">consts</span>::<span class="ident">U4</span>;
 
-<span class="doccomment">/// Helper type to define how many wavelength samples are taken at once</span>
+<span class="doccomment">/// Helper type to define an array of values correspoding to each sampled wavelength</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Lanes</span> <span class="op">=</span> <span class="ident">NumericArray</span><span class="op">&lt;</span><span class="ident">f32</span>, <span class="ident">NumLanes</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Hero wavelength spectrum samples</span>
@@ -302,15 +345,47 @@
     <span class="kw">pub</span> <span class="ident">energy</span>: <span class="ident">Lanes</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">Add</span> <span class="kw">for</span> <span class="ident">SpectralRadiance</span> {
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">SpectralRadiance</span>;
+    <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">SpectralRadiance</span> {
+        <span class="self">self</span>.<span class="ident">energy</span> <span class="op">+=</span> <span class="ident">rhs</span>.<span class="ident">energy</span>;
+        <span class="self">self</span>
+    }
+}
+
+<span class="doccomment">/// `$R_{\lambda}$`, unitless reflectance factor between 0 and 1</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpectralReflectance</span> {
+    <span class="kw">pub</span> <span class="ident">refl</span>: <span class="ident">Lanes</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Mul</span> <span class="kw">for</span> <span class="ident">SpectralReflectance</span> {
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">SpectralReflectance</span>;
+    <span class="kw">fn</span> <span class="ident">mul</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">SpectralReflectance</span> {
+        <span class="self">self</span>.<span class="ident">refl</span> <span class="op">*=</span> <span class="ident">rhs</span>.<span class="ident">refl</span>;
+        <span class="self">self</span>
+    }
+}
+
 <span class="doccomment">/// `$\Phi_{\mathbf{e},\lambda}$`, radiant energy in watts per metre</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpectralFlux</span> {
     <span class="kw">pub</span> <span class="ident">energy</span>: <span class="ident">Lanes</span>,
 }
 
-<span class="doccomment">/// `$R_{\lambda}$`, unitless reflectance factor between 0 and 1</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpectralReflectance</span> {
-    <span class="kw">pub</span> <span class="ident">ratio</span>: <span class="ident">Lanes</span>,
+<span class="kw">impl</span> <span class="ident">Mul</span><span class="op">&lt;</span><span class="ident">SpectralReflectance</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SpectralFlux</span> {
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">SpectralFlux</span>;
+    <span class="kw">fn</span> <span class="ident">mul</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">SpectralReflectance</span>) <span class="op">-&gt;</span> <span class="ident">SpectralFlux</span> {
+        <span class="self">self</span>.<span class="ident">energy</span> <span class="op">*=</span> <span class="ident">rhs</span>.<span class="ident">refl</span>;
+        <span class="self">self</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">Add</span> <span class="kw">for</span> <span class="ident">SpectralFlux</span> {
+    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">SpectralFlux</span>;
+    <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">rhs</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">SpectralFlux</span> {
+        <span class="self">self</span>.<span class="ident">energy</span> <span class="op">+=</span> <span class="ident">rhs</span>.<span class="ident">energy</span>;
+        <span class="self">self</span>
+    }
 }
 
 <span class="doccomment">/// XYZ Tristimulus color values</span>
@@ -395,8 +470,15 @@
 <span class="doccomment">/// `$\int_{\lambda_{min}}^{\lambda_{max}} \overline{y}(\lambda) d\lambda$`, where wavelengths can be sampled.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpectralRange</span> {
+    <span class="doccomment">/// `$\lambda_{min}$`, the minimum wavelength which can be sampled</span>
     <span class="kw">pub</span> <span class="ident">min</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// `$\lambda_{max}$`, the maximum wavelength which can be sampled</span>
     <span class="kw">pub</span> <span class="ident">max</span>: <span class="ident">f32</span>,
+    <span class="doccomment">/// Normalizing factor</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```math</span>
+    <span class="doccomment">/// \int_{\lambda_{min}}^{\lambda_{max}} \overline{y}(\lambda) d\lambda</span>
+    <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="ident">y_integral</span>: <span class="ident">f32</span>,
 }
 
@@ -445,7 +527,7 @@
     }
 
     <span class="doccomment">/**
-        Samples a hero wavelength and `NumLanes::USIZE` number of equidistantly spaced other wavelength samples
+        Samples a hero wavelength and `NumLanes - 1` number of equidistantly spaced other wavelength samples
         within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
         ```math
             r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
@@ -456,11 +538,11 @@
             \overline{\lambda} &amp;= \lambda_{max}-\lambda_{min} \\
             \lambda_h          &amp;= t\overline{\lambda} + \lambda_{min} \\
             j                  &amp;= 1,\dots,C \\
-            t                  &amp;= [0,1)
+            t                  &amp;\in [0,1)
         \end{aligned}
         ```
     */</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sample_hero</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">t</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">SpectralWavelengthSamples</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sample</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">t</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">SpectralWavelengthSamples</span> {
         <span class="kw">let</span> <span class="ident">lambda_bar</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">max</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">min</span>;
 
         <span class="kw">let</span> <span class="ident">hero</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">min</span> <span class="op">+</span> <span class="ident">t</span>.<span class="ident">min</span>(<span class="number">1.0</span>).<span class="ident">max</span>(<span class="number">0.0</span>) <span class="op">*</span> <span class="ident">lambda_bar</span>; <span class="comment">// basically a lerp</span>
