@@ -2,11 +2,14 @@ use std::ops::Add;
 
 use crate::color::{Colorspace, RGBColor};
 
+use numeric_array::{NumericArray, typenum};
+use typenum::Unsigned;
+
 /// Defines how many wavelengths should be used for HWSS
-pub const NUM_LANES: usize = 4;
+pub type NumLanes = typenum::consts::U4;
 
 /// Helper type to define how many wavelength samples are taken at once
-pub type Lanes = [f32; NUM_LANES];
+pub type Lanes = NumericArray<f32, NumLanes>;
 
 /// Hero wavelength spectrum samples
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -35,7 +38,6 @@ pub struct SpectralRadiance {
 /// `$\Phi_{\mathbf{e},\lambda}$`, radiant energy in watts per metre
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SpectralFlux {
-    /// The Spectral Flux (`$\Phi_{\mathrm{e}}$`) being carried at each wavelength
     pub energy: Lanes,
 }
 
@@ -159,8 +161,8 @@ impl SpectralRange {
     pub fn hero_to_xyz(&self, wl: SpectralWavelengthSamples, flux: SpectralFlux) -> XYZSpectrum {
         let mut avg = XYZSpectrum::ZERO;
 
-        for i in 0..NUM_LANES {
-            let denom = self.y_integral * wl.pdf[i] * NUM_LANES as f32;
+        for i in 0..NumLanes::USIZE {
+            let denom = self.y_integral * wl.pdf[i] * NumLanes::USIZE as f32;
 
             if denom.is_normal() {
                 let xyz = XYZSpectrum::from_wavelength(wl.lambda[i]);
@@ -176,7 +178,7 @@ impl SpectralRange {
     }
 
     /**
-        Samples a hero wavelength and `NUM_LANES` number of equidistantly spaced other wavelength samples
+        Samples a hero wavelength and `NumLanes::USIZE` number of equidistantly spaced other wavelength samples
         within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
         ```math
             r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
@@ -196,17 +198,17 @@ impl SpectralRange {
 
         let hero = self.min + t.min(1.0).max(0.0) * lambda_bar; // basically a lerp
 
-        let mut lambda = [hero; NUM_LANES];
+        let mut lambda = Lanes::splat(hero);
 
-        for j in 1..NUM_LANES {
+        for j in 1..NumLanes::USIZE {
             let jf = j as f32;
 
-            lambda[j] = self.min + (hero - self.min + lambda_bar * jf / NUM_LANES as f32) % lambda_bar;
+            lambda[j] = self.min + (hero - self.min + lambda_bar * jf / NumLanes::USIZE as f32) % lambda_bar;
         }
 
         SpectralWavelengthSamples {
             lambda,
-            pdf: [1.0 / lambda_bar; NUM_LANES],
+            pdf: Lanes::splat(1.0 / lambda_bar),
         }
     }
 }
