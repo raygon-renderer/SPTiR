@@ -1,3 +1,7 @@
+use std::ops::Add;
+
+use crate::color::{Colorspace, RGBColor};
+
 /// Defines how many wavelengths should be used for HWSS
 pub const NUM_LANES: usize = 4;
 
@@ -29,6 +33,17 @@ impl XYZSpectrum {
 
     pub const fn new(x: f32, y: f32, z: f32) -> XYZSpectrum {
         XYZSpectrum { x, y, z }
+    }
+
+    /// Converts XYZ tristimulus values to RGB within a certain colorspace.
+    ///
+    /// NOTE: This alone does no chromatic adaptation, and conversion from rgb to rgb of different colorspaces
+    /// should be handled with [`RGBColor::convert`](`RGBColor::convert`)
+    ///
+    /// [`RGBColor::convert`]: crate::color::RGBColor::convert
+    pub fn to_rgb<CS: Colorspace>(self) -> RGBColor<CS> {
+        let XYZSpectrum { x: r, y: g, z: b } = CS::XYZ_TO_RGB.transform_xyz(self);
+        RGBColor::new(r, g, b)
     }
 
     /**
@@ -71,6 +86,16 @@ impl XYZSpectrum {
               + gaussian(angstroms_lambda,  0.681, 4590.0, 260.0, 138.0);
 
         XYZSpectrum::new(x, y, z)
+    }
+}
+
+impl Add for XYZSpectrum {
+    type Output = XYZSpectrum;
+    fn add(mut self, rhs: XYZSpectrum) -> Self::Output {
+        self.x += rhs.x;
+        self.y += rhs.y;
+        self.z += rhs.z;
+        self
     }
 }
 

@@ -84,6 +84,8 @@ pub mod whitepoints {
 pub struct Adaptation<FROM: Colorspace, TO: Colorspace>(PhantomData<(FROM, TO)>);
 
 /**
+    Bradford cone response domain matrix
+
     ```math
     \begin{bmatrix}
         +0.89510  & +0.26640 & -0.16140 \\
@@ -99,7 +101,9 @@ pub const FORWARD_BRADFORD_MATRIX: ColorMatrix3 = ColorMatrix3([
     0.03890, -0.06850,  1.02960,
 ]);
 
-/// Inverse of [`FORWARD_BRADFORD_MATRIX`](./constant.FORWARD_BRADFORD_MATRIX.html), computed automatically
+/// Inverse of [`FORWARD_BRADFORD_MATRIX`](`FORWARD_BRADFORD_MATRIX`), computed automatically.
+///
+/// [`FORWARD_BRADFORD_MATRIX`]: crate::color::FORWARD_BRADFORD_MATRIX
 pub const INVERSE_BRADFORD_MATRIX: ColorMatrix3 = FORWARD_BRADFORD_MATRIX.inverse();
 
 /**
@@ -188,6 +192,11 @@ impl<CS: Colorspace> RGBColor<CS> {
     */
     pub const fn convert<TO: Colorspace>(self) -> RGBColor<TO> {
         Adaptation::<CS, TO>::RGB_TO_RGB.transform_rgb(self)
+    }
+
+    pub const fn to_xyz(self) -> XYZSpectrum {
+        let RGBColor { r: x, g: y, b: z, .. } = CS::RGB_TO_XYZ.transform_rgb::<CS, CS>(self);
+        XYZSpectrum::new(x, y, z)
     }
 }
 
