@@ -11,7 +11,7 @@ pub type Lanes = [f32; NUM_LANES];
 /// Hero wavelength spectrum samples
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SpectralWavelengthSamples {
-    /// The sampled wavelengths (`$\lambda$`), where `$\lambda_h = \lamnda_0$`
+    /// The sampled wavelengths (`$\lambda$`), where `$\lambda_h = \lambda_0$`
     pub lambda: Lanes,
 
     /// The sampling probability for this wavelength
