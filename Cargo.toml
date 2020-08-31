@@ -24,4 +24,4 @@ lto = 'thin'
 
 [profile.release]
 opt-level = 3
-lti = 'fat'
+lto = 'fat'
