@@ -1,14 +1,16 @@
-use std::ops::Add;
+use std::ops::{Add, Mul};
 
 use crate::color::{Colorspace, RGBColor};
 
-use numeric_array::{NumericArray, typenum};
+use numeric_array::{typenum, NumericArray};
 use typenum::Unsigned;
+
+pub mod distribution;
 
 /// Defines how many wavelengths should be used for HWSS
 pub type NumLanes = typenum::consts::U4;
 
-/// Helper type to define how many wavelength samples are taken at once
+/// Helper type to define an array of values correspoding to each sampled wavelength
 pub type Lanes = NumericArray<f32, NumLanes>;
 
 /// Hero wavelength spectrum samples
@@ -35,15 +37,47 @@ pub struct SpectralRadiance {
     pub energy: Lanes,
 }
 
+impl Add for SpectralRadiance {
+    type Output = SpectralRadiance;
+    fn add(mut self, rhs: Self) -> SpectralRadiance {
+        self.energy += rhs.energy;
+        self
+    }
+}
+
+/// `$R_{\lambda}$`, unitless reflectance factor between 0 and 1
+pub struct SpectralReflectance {
+    pub refl: Lanes,
+}
+
+impl Mul for SpectralReflectance {
+    type Output = SpectralReflectance;
+    fn mul(mut self, rhs: Self) -> SpectralReflectance {
+        self.refl *= rhs.refl;
+        self
+    }
+}
+
 /// `$\Phi_{\mathbf{e},\lambda}$`, radiant energy in watts per metre
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SpectralFlux {
     pub energy: Lanes,
 }
 
-/// `$R_{\lambda}$`, unitless reflectance factor between 0 and 1
-pub struct SpectralReflectance {
-    pub ratio: Lanes,
+impl Mul<SpectralReflectance> for SpectralFlux {
+    type Output = SpectralFlux;
+    fn mul(mut self, rhs: SpectralReflectance) -> SpectralFlux {
+        self.energy *= rhs.refl;
+        self
+    }
+}
+
+impl Add for SpectralFlux {
+    type Output = SpectralFlux;
+    fn add(mut self, rhs: Self) -> SpectralFlux {
+        self.energy += rhs.energy;
+        self
+    }
 }
 
 /// XYZ Tristimulus color values
@@ -128,8 +162,15 @@ impl Add for XYZSpectrum {
 /// `$\int_{\lambda_{min}}^{\lambda_{max}} \overline{y}(\lambda) d\lambda$`, where wavelengths can be sampled.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SpectralRange {
+    /// `$\lambda_{min}$`, the minimum wavelength which can be sampled
     pub min: f32,
+    /// `$\lambda_{max}$`, the maximum wavelength which can be sampled
     pub max: f32,
+    /// Normalizing factor
+    ///
+    /// ```math
+    /// \int_{\lambda_{min}}^{\lambda_{max}} \overline{y}(\lambda) d\lambda
+    /// ```
     pub y_integral: f32,
 }
 
@@ -178,7 +219,7 @@ impl SpectralRange {
     }
 
     /**
-        Samples a hero wavelength and `NumLanes::USIZE` number of equidistantly spaced other wavelength samples
+        Samples a hero wavelength and `NumLanes - 1` number of equidistantly spaced other wavelength samples
         within the defined range, using a rotation function `$r_j: \Lambda \rarr \Lambda$`:
         ```math
             r_j \left( \lambda_{h} \right)=\left( \lambda_h - \lambda_{min} + \frac{j}{C} \overline{\lambda}\right)\textbf{mod}\ \overline{\lambda} + \lambda_{min}
@@ -189,11 +230,11 @@ impl SpectralRange {
             \overline{\lambda} &= \lambda_{max}-\lambda_{min} \\
             \lambda_h          &= t\overline{\lambda} + \lambda_{min} \\
             j                  &= 1,\dots,C \\
-            t                  &= [0,1)
+            t                  &\in [0,1)
         \end{aligned}
         ```
     */
-    pub fn sample_hero(&self, t: f32) -> SpectralWavelengthSamples {
+    pub fn sample(&self, t: f32) -> SpectralWavelengthSamples {
         let lambda_bar = self.max - self.min;
 
         let hero = self.min + t.min(1.0).max(0.0) * lambda_bar; // basically a lerp

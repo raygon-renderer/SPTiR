@@ -1,4 +1,4 @@
-use std::ops::Div;
+use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Vector3 {
@@ -107,6 +107,36 @@ impl Vector3 {
         }
 
         *self / norm_squared.sqrt()
+    }
+}
+
+impl Add for Vector3 {
+    type Output = Vector3;
+    fn add(mut self, rhs: Self) -> Vector3 {
+        self.x += rhs.x;
+        self.y += rhs.y;
+        self.z += rhs.z;
+        self
+    }
+}
+
+impl Sub for Vector3 {
+    type Output = Vector3;
+    fn sub(mut self, rhs: Self) -> Vector3 {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
+        self
+    }
+}
+
+impl Mul<f32> for Vector3 {
+    type Output = Vector3;
+    fn mul(mut self, rhs: f32) -> Vector3 {
+        self.x *= rhs;
+        self.y *= rhs;
+        self.z *= rhs;
+        self
     }
 }
 
