@@ -311,6 +311,15 @@
 <span id="259">259</span>
 <span id="260">260</span>
 <span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
 
@@ -398,6 +407,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Adaptation</span><span class="op">&lt;</span><span class="ident">FROM</span>: <span class="ident">Colorspace</span>, <span class="ident">TO</span>: <span class="ident">Colorspace</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">FROM</span>, <span class="ident">TO</span>)<span class="op">&gt;</span>);
 
 <span class="doccomment">/**
+    Bradford cone response domain matrix
+
     ```math
     \begin{bmatrix}
         +0.89510  &amp; +0.26640 &amp; -0.16140 \\
@@ -413,7 +424,9 @@
     <span class="number">0.03890</span>, <span class="op">-</span><span class="number">0.06850</span>,  <span class="number">1.02960</span>,
 ]);
 
-<span class="doccomment">/// Inverse of [`FORWARD_BRADFORD_MATRIX`](./constant.FORWARD_BRADFORD_MATRIX.html), computed automatically</span>
+<span class="doccomment">/// Inverse of [`FORWARD_BRADFORD_MATRIX`](`FORWARD_BRADFORD_MATRIX`), computed automatically.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// [`FORWARD_BRADFORD_MATRIX`]: crate::color::FORWARD_BRADFORD_MATRIX</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INVERSE_BRADFORD_MATRIX</span>: <span class="ident">ColorMatrix3</span> <span class="op">=</span> <span class="ident">FORWARD_BRADFORD_MATRIX</span>.<span class="ident">inverse</span>();
 
 <span class="doccomment">/**
@@ -502,6 +515,11 @@
     */</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">convert</span><span class="op">&lt;</span><span class="ident">TO</span>: <span class="ident">Colorspace</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RGBColor</span><span class="op">&lt;</span><span class="ident">TO</span><span class="op">&gt;</span> {
         <span class="ident">Adaptation</span>::<span class="op">&lt;</span><span class="ident">CS</span>, <span class="ident">TO</span><span class="op">&gt;</span>::<span class="ident">RGB_TO_RGB</span>.<span class="ident">transform_rgb</span>(<span class="self">self</span>)
+    }
+
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">to_xyz</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">XYZSpectrum</span> {
+        <span class="kw">let</span> <span class="ident">RGBColor</span> { <span class="ident">r</span>: <span class="ident">x</span>, <span class="ident">g</span>: <span class="ident">y</span>, <span class="ident">b</span>: <span class="ident">z</span>, .. } <span class="op">=</span> <span class="ident">CS</span>::<span class="ident">RGB_TO_XYZ</span>.<span class="ident">transform_rgb</span>::<span class="op">&lt;</span><span class="ident">CS</span>, <span class="ident">CS</span><span class="op">&gt;</span>(<span class="self">self</span>);
+        <span class="ident">XYZSpectrum</span>::<span class="ident">new</span>(<span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">z</span>)
     }
 }
 
