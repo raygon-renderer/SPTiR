@@ -1,4 +1,5 @@
 use std::marker::PhantomData;
+use std::ops::{Add, Div, Mul};
 
 use crate::spectrum::XYZSpectrum;
 
@@ -266,5 +267,45 @@ impl RGBPrimaries {
             sr * yr, sg * yg, sb * yb,
             sr * zr, sg * zg, sb * zb,
         ])
+    }
+}
+
+impl<CS: Colorspace> Add for RGBColor<CS> {
+    type Output = RGBColor<CS>;
+    fn add(mut self, rhs: Self) -> Self::Output {
+        self.r += rhs.r;
+        self.g += rhs.g;
+        self.b += rhs.b;
+        self
+    }
+}
+
+impl<CS: Colorspace> Mul for RGBColor<CS> {
+    type Output = RGBColor<CS>;
+    fn mul(mut self, rhs: Self) -> Self::Output {
+        self.r *= rhs.r;
+        self.g *= rhs.g;
+        self.b *= rhs.b;
+        self
+    }
+}
+
+impl<CS: Colorspace> Mul<f32> for RGBColor<CS> {
+    type Output = RGBColor<CS>;
+    fn mul(mut self, rhs: f32) -> Self::Output {
+        self.r *= rhs;
+        self.g *= rhs;
+        self.b *= rhs;
+        self
+    }
+}
+
+impl<CS: Colorspace> Div<f32> for RGBColor<CS> {
+    type Output = RGBColor<CS>;
+    fn div(mut self, rhs: f32) -> Self::Output {
+        self.r /= rhs;
+        self.g /= rhs;
+        self.b /= rhs;
+        self
     }
 }

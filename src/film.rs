@@ -58,8 +58,8 @@ fn tonemap(color: SRGBColor, exposure: f32) -> SRGBColor {
     }
 
     SRGBColor::new(
-        tonemap_component(color.r * 16.0 * exposure) / tonemap_component(T_W),
-        tonemap_component(color.g * 16.0 * exposure) / tonemap_component(T_W),
-        tonemap_component(color.b * 16.0 * exposure) / tonemap_component(T_W),
-    )
+        tonemap_component(color.r * 16.0 * exposure),
+        tonemap_component(color.g * 16.0 * exposure),
+        tonemap_component(color.b * 16.0 * exposure),
+    ) / tonemap_component(T_W)
 }
