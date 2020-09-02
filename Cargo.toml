@@ -6,8 +6,9 @@ edition = "2018"
 publish = false
 
 [[bin]]
-name = "main"
-path = "bin/main.rs"
+name = "chapter_0_prelude"
+path = "chapters/prelude.rs"
+
 
 [package.metadata.docs.rs]
 rustdoc-args = [ "--html-in-header", "katex-header.html" ]
