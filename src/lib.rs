@@ -13,4 +13,6 @@ pub mod color;
 pub mod film;
 pub mod geometry;
 pub mod math;
+pub mod sampling;
 pub mod spectrum;
+pub mod world;
