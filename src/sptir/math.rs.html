@@ -70,9 +70,9 @@
 <span id="18">18</span>
 <span id="19">19</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">integrate</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">f32</span>, <span class="ident">b</span>: <span class="ident">f32</span>, <span class="ident">n</span>: <span class="ident">usize</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">f32</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">integrate</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">f32</span>, <span class="ident">b</span>: <span class="ident">f32</span>, <span class="ident">n</span>: <span class="ident">usize</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span>
 <span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span>,
+    <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span>,
 {
     <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">-</span> <span class="ident">a</span>) <span class="op">/</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">f32</span>;
 
@@ -84,7 +84,7 @@
         <span class="kw">let</span> <span class="ident">x1</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">+</span> <span class="ident">step</span> <span class="op">*</span> <span class="ident">width</span>;
         <span class="kw">let</span> <span class="ident">x2</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">+</span> (<span class="ident">step</span> <span class="op">+</span> <span class="number">1.0</span>) <span class="op">*</span> <span class="ident">width</span>;
 
-        <span class="ident">integral</span> <span class="op">+=</span> (<span class="ident">x2</span> <span class="op">-</span> <span class="ident">x1</span>) <span class="op">/</span> <span class="number">6.0</span> <span class="op">*</span> (<span class="ident">f</span>(<span class="ident">x1</span>) <span class="op">+</span> <span class="number">4.0</span> <span class="op">*</span> <span class="ident">f</span>(<span class="number">0.5</span> <span class="op">*</span> (<span class="ident">x1</span> <span class="op">+</span> <span class="ident">x2</span>)) <span class="op">+</span> <span class="ident">f</span>(<span class="ident">x2</span>));
+        <span class="ident">integral</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">x2</span> <span class="op">-</span> <span class="ident">x1</span>) <span class="op">/</span> <span class="number">6.0</span> <span class="op">*</span> (<span class="ident">f</span>(<span class="ident">x1</span>) <span class="op">+</span> <span class="number">4.0</span> <span class="op">*</span> <span class="ident">f</span>(<span class="number">0.5</span> <span class="op">*</span> (<span class="ident">x1</span> <span class="op">+</span> <span class="ident">x2</span>)) <span class="op">+</span> <span class="ident">f</span>(<span class="ident">x2</span>));
     }
 
     <span class="ident">integral</span>

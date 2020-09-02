@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["sptir"] = [{"text":"impl Div&lt;f32&gt; for Vector3","synthetic":false,"types":[]}];
+implementors["sptir"] = [{"text":"impl&lt;CS:&nbsp;Colorspace&gt; Div&lt;f32&gt; for RGBColor&lt;CS&gt;","synthetic":false,"types":[]},{"text":"impl Div&lt;Transform3&gt; for Transform3","synthetic":false,"types":[]},{"text":"impl Div&lt;f32&gt; for Vector3","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

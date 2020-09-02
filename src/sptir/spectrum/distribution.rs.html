@@ -63,11 +63,11 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">spectrum</span>::{<span class="ident">SpectralRadiance</span>, <span class="ident">SpectralReflectance</span>, <span class="ident">SpectralWavelengthSamples</span>};
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SpectralPowerDistribution</span> {
-    <span class="kw">fn</span> <span class="ident">radiance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">lambda</span>: <span class="ident">SpectralWavelengthSamples</span>) <span class="op">-&gt;</span> <span class="ident">SpectralRadiance</span>;
+    <span class="kw">fn</span> <span class="ident">radiance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">lambda</span>: <span class="ident">SpectralWavelengthSamples</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SpectralRadiance</span>;
 }
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SpectralReflectanceDistribution</span> {
-    <span class="kw">fn</span> <span class="ident">reflectance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">lambda</span>: <span class="ident">SpectralWavelengthSamples</span>) <span class="op">-&gt;</span> <span class="ident">SpectralReflectance</span>;
+    <span class="kw">fn</span> <span class="ident">reflectance</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">lambda</span>: <span class="ident">SpectralWavelengthSamples</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SpectralReflectance</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "sptir";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

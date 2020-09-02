@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["color",""],["film",""],["geometry",""],["math",""],["spectrum",""]]});
+initSidebarItems({"mod":[["color",""],["film",""],["geometry",""],["math",""],["sampling",""],["spectrum",""],["world",""]]});

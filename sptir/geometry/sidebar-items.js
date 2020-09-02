@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Matrix4","A 4x4 matrix"],["Vector3",""]]});
+initSidebarItems({"struct":[["Matrix4","A 4x4 matrix"],["Point3",""],["Ray",""],["Transform3",""],["Vector3",""]]});

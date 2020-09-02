@@ -128,7 +128,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Film</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">width</span>: <span class="ident">usize</span>, <span class="ident">height</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Film</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">width</span>: <span class="ident">usize</span>, <span class="ident">height</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Film</span> {
         <span class="kw">let</span> <span class="ident">num_pixels</span> <span class="op">=</span> <span class="ident">width</span> <span class="op">*</span> <span class="ident">height</span>;
 
         <span class="ident">Film</span> {
@@ -146,7 +146,7 @@
         <span class="self">self</span>.<span class="ident">pixels</span>[<span class="ident">idx</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">pixels</span>[<span class="ident">idx</span>] <span class="op">+</span> <span class="ident">energy</span>;
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_as</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">exposure</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">image</span>::<span class="ident">ImageError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">save_as</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">exposure</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">image</span>::<span class="ident">ImageError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">RgbImage</span>::<span class="ident">from_fn</span>(<span class="self">self</span>.<span class="ident">width</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="self">self</span>.<span class="ident">height</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="op">|</span><span class="ident">x</span>, <span class="ident">y</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">width</span> <span class="op">*</span> <span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="ident">y</span> <span class="kw">as</span> <span class="ident">usize</span>;
             <span class="kw">let</span> <span class="ident">color</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pixels</span>[<span class="ident">idx</span>].<span class="ident">to_rgb</span>::<span class="op">&lt;</span><span class="ident">SRGB</span><span class="op">&gt;</span>();
@@ -162,7 +162,7 @@
 }
 
 <span class="comment">// Uncharted 2 tonemapper</span>
-<span class="kw">fn</span> <span class="ident">tonemap</span>(<span class="ident">color</span>: <span class="ident">SRGBColor</span>, <span class="ident">exposure</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">SRGBColor</span> {
+<span class="kw">fn</span> <span class="ident">tonemap</span>(<span class="ident">color</span>: <span class="ident">SRGBColor</span>, <span class="ident">exposure</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SRGBColor</span> {
     <span class="kw">const</span> <span class="ident">T_A</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">0.15</span>;
     <span class="kw">const</span> <span class="ident">T_B</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">0.50</span>;
     <span class="kw">const</span> <span class="ident">T_C</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">0.10</span>;
@@ -171,15 +171,15 @@
     <span class="kw">const</span> <span class="ident">T_F</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">0.30</span>;
     <span class="kw">const</span> <span class="ident">T_W</span>: <span class="ident">f32</span> <span class="op">=</span> <span class="number">11.2</span>;
 
-    <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">tonemap_component</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-&gt;</span> <span class="ident">f32</span> {
+    <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">tonemap_component</span>(<span class="ident">x</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">f32</span> {
         ((<span class="ident">x</span> <span class="op">*</span> (<span class="ident">T_A</span> <span class="op">*</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">T_C</span> <span class="op">*</span> <span class="ident">T_B</span>) <span class="op">+</span> <span class="ident">T_D</span> <span class="op">*</span> <span class="ident">T_E</span>) <span class="op">/</span> (<span class="ident">x</span> <span class="op">*</span> (<span class="ident">T_A</span> <span class="op">*</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">T_B</span>) <span class="op">+</span> <span class="ident">T_D</span> <span class="op">*</span> <span class="ident">T_F</span>)) <span class="op">-</span> <span class="ident">T_E</span> <span class="op">/</span> <span class="ident">T_F</span>
     }
 
     <span class="ident">SRGBColor</span>::<span class="ident">new</span>(
-        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">r</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>) <span class="op">/</span> <span class="ident">tonemap_component</span>(<span class="ident">T_W</span>),
-        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">g</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>) <span class="op">/</span> <span class="ident">tonemap_component</span>(<span class="ident">T_W</span>),
-        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">b</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>) <span class="op">/</span> <span class="ident">tonemap_component</span>(<span class="ident">T_W</span>),
-    )
+        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">r</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>),
+        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">g</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>),
+        <span class="ident">tonemap_component</span>(<span class="ident">color</span>.<span class="ident">b</span> <span class="op">*</span> <span class="number">16.0</span> <span class="op">*</span> <span class="ident">exposure</span>),
+    ) <span class="op">/</span> <span class="ident">tonemap_component</span>(<span class="ident">T_W</span>)
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "sptir";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
