@@ -175,11 +175,20 @@ pub struct SpectralRange {
 }
 
 impl SpectralRange {
+    /// Precomputed visible wavelength range between 360 and 840 nanometers.
+    pub const VISIBLE: SpectralRange = SpectralRange {
+        min: 360.0,
+        max: 840.0,
+        y_integral: 106.922074243,
+    };
+
+    #[rustfmt::skip]
     pub fn new(min: f32, max: f32) -> SpectralRange {
         SpectralRange {
             min,
             max,
-            y_integral: crate::math::integrate(min, max, 128, |lambda| XYZSpectrum::from_wavelength(lambda).y),
+            y_integral: crate::math::integrate(min, max, 1e-6, 8,
+                |lambda| XYZSpectrum::from_wavelength(lambda).y),
         }
     }
 
