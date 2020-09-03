@@ -305,6 +305,15 @@
 <span id="253">253</span>
 <span id="254">254</span>
 <span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Mul</span>};
 
@@ -483,11 +492,20 @@
 }
 
 <span class="kw">impl</span> <span class="ident">SpectralRange</span> {
+    <span class="doccomment">/// Precomputed visible wavelength range between 360 and 840 nanometers.</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">VISIBLE</span>: <span class="ident">SpectralRange</span> <span class="op">=</span> <span class="ident">SpectralRange</span> {
+        <span class="ident">min</span>: <span class="number">360.0</span>,
+        <span class="ident">max</span>: <span class="number">840.0</span>,
+        <span class="ident">y_integral</span>: <span class="number">106.922074243</span>,
+    };
+
+    <span class="attribute">#[<span class="ident">rustfmt</span>::<span class="ident">skip</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">min</span>: <span class="ident">f32</span>, <span class="ident">max</span>: <span class="ident">f32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SpectralRange</span> {
         <span class="ident">SpectralRange</span> {
             <span class="ident">min</span>,
             <span class="ident">max</span>,
-            <span class="ident">y_integral</span>: <span class="kw">crate</span>::<span class="ident">math</span>::<span class="ident">integrate</span>(<span class="ident">min</span>, <span class="ident">max</span>, <span class="number">128</span>, <span class="op">|</span><span class="ident">lambda</span><span class="op">|</span> <span class="ident">XYZSpectrum</span>::<span class="ident">from_wavelength</span>(<span class="ident">lambda</span>).<span class="ident">y</span>),
+            <span class="ident">y_integral</span>: <span class="kw">crate</span>::<span class="ident">math</span>::<span class="ident">integrate</span>(<span class="ident">min</span>, <span class="ident">max</span>, <span class="number">1e-6</span>, <span class="number">8</span>,
+                <span class="op">|</span><span class="ident">lambda</span><span class="op">|</span> <span class="ident">XYZSpectrum</span>::<span class="ident">from_wavelength</span>(<span class="ident">lambda</span>).<span class="ident">y</span>),
         }
     }
 
