@@ -3,8 +3,11 @@ extern crate sptir;
 use sptir::color::spaces::SRGBColor;
 
 fn main() {
-    let range = sptir::spectrum::SpectralRange::new(360.0, 830.0);
+    let range = sptir::spectrum::range::SpectralRange::new(360.0, 830.0);
 
+    println!("{:?}", range);
+
+    /*
     let mut film = sptir::film::Film::new(128, 128);
 
     for y in 0..128 {
@@ -14,4 +17,5 @@ fn main() {
     }
 
     film.save_as("test.png", 0.1).unwrap();
+    */
 }

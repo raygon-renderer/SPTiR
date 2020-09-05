@@ -1,8 +1,23 @@
 [env]
 CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = "true"
 
-[tasks.doc]
+[tasks.build_doc]
 env = { RUSTDOCFLAGS = "--html-in-header ${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/katex-header.html" }
 command = "cargo"
 workspace = false
 args = ["doc", "${@}"]
+
+[tasks.ensure_doc]
+dependencies = ["build_doc"]
+command = "mkdir"
+workspace = false
+args = ["-p", "target/doc/sptir_assets/"]
+
+[tasks.link_doc]
+dependencies = ["ensure_doc"]
+command = "cp"
+workspace = false
+args = ["-r", "assets/*", "target/doc/sptir_assets/"]
+
+[tasks.doc_all]
+run_task = { name = ["build_doc", "ensure_doc", "link_doc"], parallel = false }

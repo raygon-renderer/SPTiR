@@ -1,5 +1,5 @@
 use crate::color::{Colorspace, RGBColor};
-use crate::spectrum::XYZSpectrum;
+use crate::spectrum::xyz::XYZSpectrum;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColorMatrix3(pub [f32; 9]);

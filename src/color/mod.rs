@@ -1,7 +1,7 @@
 use std::marker::PhantomData;
 use std::ops::{Add, Div, Mul};
 
-use crate::spectrum::XYZSpectrum;
+use crate::spectrum::xyz::XYZSpectrum;
 
 mod matrix;
 

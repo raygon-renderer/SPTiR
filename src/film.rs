@@ -1,7 +1,7 @@
 use image::RgbImage;
 
 use crate::color::spaces::{SRGBColor, SRGB};
-use crate::spectrum::XYZSpectrum;
+use crate::spectrum::xyz::XYZSpectrum;
 
 pub struct Film {
     pub pixels: Vec<XYZSpectrum>,
