@@ -28,11 +28,11 @@ For example, consider this raw cone response curve to the D65 standard illuminan
 
 <div style="text-align:center" class="flex-container">
     <div class="flex-child">
-        <img src="../sptir_assets/d65-raw.png" alt="D65" style="align:center"/>
+        <img src="../sptir_assets/d65-raw.png" alt="D65 Raw" style="align:center"/>
         <figcaption>Fig. 1: Tristimulus Response of the D65 Illuminant</figcaption>
     </div>
     <div class="flex-child">
-        <img src="../sptir_assets/exaggerated-rgb-approximation.png" alt="D65 RGB" style="align:center"/>
+        <img src="../sptir_assets/d65-xyx.png" alt="D65 XYZ" style="align:center"/>
         <figcaption>Fig. 2: XYZ integral of the D65 Illuminant</figcaption>
     </div>
 </div>
