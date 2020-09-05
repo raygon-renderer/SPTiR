@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["x_bar","`$\\overline{x}(\\lambda)$` basis function approximation"],["y_bar","`$\\overline{y}(\\lambda)$` basis function approximation"],["z_bar","`$\\overline{z}(\\lambda)$` basis function approximation"]],"struct":[["XYZSpectrum","XYZ Tristimulus color values"]]});

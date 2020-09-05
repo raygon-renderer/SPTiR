@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["SpectralRange","Range `$\\int_{\\lambda_{min}}^{\\lambda_{max}} \\overline{y}(\\lambda) d\\lambda$`, where wavelengths can be sampled."]]});

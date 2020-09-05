@@ -49,6 +49,21 @@
         margin-top: 0.3em;
     }
 </style>
+
+<style>
+    .flex-container {
+        display: flex;
+        margin-bottom: 1em;
+    }
+
+    .flex-child {
+        flex: 1;
+    }
+
+    .flex-child:first-child {
+        margin-right: 20px;
+    }
+</style>
 <style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../chapter_0_prelude/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><span class="help-button">?</span>
                 <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
@@ -60,10 +75,92 @@
 <span id="8"> 8</span>
 <span id="9"> 9</span>
 <span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/*!
 
 # Spectral Path Tracing in Rust: Prelude
+
+Ray tracing is all the hype right now, both in realtime and production movie renderers. It&#39;s a simple and efficient way to
+explore and scene and simulate light through it.
+
+Path tracing is a specific application of ray tracing in conjuction with Monte-Carlo
+integration to simulate light transport for realistic global illumination and materials, naturally
+simulating many effects such as soft shadows, depth of field, motion blur, ambient occlusion and indirect loghting.
+
+However, many current path tracing renderers have a fatal flaw: **RGB Color**.
+
+Your computer monitor displays pixels using a combination of three subpixels for Red, Green and Blue. Likewise,
+most images, image editing software, video players, web browsers, etc. all use RGB color to manipulate and display
+content. That&#39;s all mostly fine.
+
+However, when simulating the complex physical interactions between materials and light,
+forcing color into three strict bins becomes not only awkward, but incorrect.
+
+The ACEScg color space (discussed later) attempts to rememdy this somewhat with a wide-gamut colorspace for rendering within,
+but even that fails to capture the real and subtle interactions across imperfect spectra.
+
+This is where **Spectral Rendering** comes in. Spectral Rendering simulates true individual
+wavelengths of light and the associated spectral flux (energy) at each wavelength.
+
+For example, consider this raw cone response curve to the D65 standard illuminant and then the XYZ color values of it, derived by integrating the cone responses.
+
+&lt;div style=&quot;text-align:center&quot; class=&quot;flex-container&quot;&gt;
+    &lt;div class=&quot;flex-child&quot;&gt;
+        &lt;img src=&quot;../sptir_assets/d65-raw.png&quot; alt=&quot;D65&quot; style=&quot;align:center&quot;/&gt;
+        &lt;figcaption&gt;Fig. 1: Tristimulus Response of the D65 Illuminant&lt;/figcaption&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;flex-child&quot;&gt;
+        &lt;img src=&quot;../sptir_assets/exaggerated-rgb-approximation.png&quot; alt=&quot;D65 RGB&quot; style=&quot;align:center&quot;/&gt;
+        &lt;figcaption&gt;Fig. 2: XYZ integral of the D65 Illuminant&lt;/figcaption&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+As you can see, fitting such wide and varied functions into three bins for all of human vision loses quite a bit of information.
+
+Human vision is inherently lossy, and rendering using lossy descriptions of the real world will inevitably produce inferior and unrealistic results.
+
+With spectral rendering, however, we sidestep such approximations entirely by tracing individual wavelengths of light and energy, giving unprecedented color realism.
 
 */</span>
 

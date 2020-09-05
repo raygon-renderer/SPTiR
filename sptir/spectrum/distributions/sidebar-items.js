@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["illuminant_d","Standard Illuminant D-series"],["sampled","Arbitrary sampled spectral distributions"]],"trait":[["SpectralPowerDistribution","`$L_{\\mathbf{a},\\Omega,\\lambda}$`, spectral radiance"],["SpectralReflectanceDistribution","`$R_{\\lambda}$`, unitless reflectance factor"]]});
