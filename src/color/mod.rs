@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use std::ops::{Add, Div, Mul};
+use std::ops::{Add, Deref, DerefMut, Div, Mul};
 
 use crate::spectrum::xyz::XYZSpectrum;
 
@@ -165,6 +165,26 @@ pub struct RGBColor<CS: Colorspace> {
     _colorspace: PhantomData<CS>,
 }
 
+/// Adapter around `RGBColor` to add alpha transparency values
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RGBAColor<CS: Colorspace> {
+    pub rgb: RGBColor<CS>,
+    pub a: f32,
+}
+
+impl<CS: Colorspace> Deref for RGBAColor<CS> {
+    type Target = RGBColor<CS>;
+    fn deref(&self) -> &Self::Target {
+        &self.rgb
+    }
+}
+
+impl<CS: Colorspace> DerefMut for RGBAColor<CS> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.rgb
+    }
+}
+
 impl<CS: Colorspace> RGBColor<CS> {
     #[rustfmt::skip]
     pub const fn new(r: f32, g: f32, b: f32) -> RGBColor<CS> {
@@ -198,6 +218,26 @@ impl<CS: Colorspace> RGBColor<CS> {
     pub const fn to_xyz(self) -> XYZSpectrum {
         let RGBColor { r: x, g: y, b: z, .. } = CS::RGB_TO_XYZ.transform_rgb::<CS, CS>(self);
         XYZSpectrum::new(x, y, z)
+    }
+}
+
+impl<CS: Colorspace> RGBAColor<CS> {
+    pub const fn new(r: f32, g: f32, b: f32, a: f32) -> RGBAColor<CS> {
+        RGBAColor {
+            rgb: RGBColor::new(r, g, b),
+            a,
+        }
+    }
+
+    pub const fn convert<TO: Colorspace>(self) -> RGBAColor<TO> {
+        RGBAColor {
+            rgb: Adaptation::<CS, TO>::RGB_TO_RGB.transform_rgb(self.rgb),
+            a: self.a,
+        }
+    }
+
+    pub const fn to_xyz(self) -> XYZSpectrum {
+        self.rgb.to_xyz()
     }
 }
 

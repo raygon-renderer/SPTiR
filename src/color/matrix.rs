@@ -1,6 +1,7 @@
 use crate::color::{Colorspace, RGBColor};
 use crate::spectrum::xyz::XYZSpectrum;
 
+/// Simple 3x3 Matrix for mostly compile-time computations
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColorMatrix3(pub [f32; 9]);
 
